@@ -8,12 +8,12 @@
 
 <script type="text/javascript">
     function addRow(empty) {
-        var dataTable = document.getElementById("dataTable");
-        var newTable = document.getElementById("emptyTitleRows").cloneNode(true).children;
+
+        var newTable = $("#emptyTitleRows >tbody >tr").clone();
         if (!empty) {
-            newTable = document.getElementById("newTitleRows").cloneNode(true).children;
+            newTable = $("#newTitleRows > tbody> tr").clone();
         }
-        dataTable.appendChild(newTable[0]);
+        newTable.insertAfter('#dataTable > tbody > .title');
     }
     function deleteRow(currentButton) {
         $(currentButton).closest('tr').remove();
@@ -21,7 +21,11 @@
 
 </script>
 <div class="form">
+    <div id="addProduct" >
+        <?php $this->renderPartial('_productform', array('model' => $model, 'productModel' => new Product())); ?>
+    </div>
     <form>
+        <label>Product Tag: </label>
         <?php echo CHtml::textField('productTag') ?>
         <?php
         echo CHtml::ajaxSubmitButton("Add Product", CController::createUrl('addproduct'), array('update' => '#addProduct'));
@@ -47,8 +51,10 @@
             <td><?php echo $form->labelEx($detailModel, 'unitprice'); ?></td>
             <td><input type="button" name="more" value="more" onclick="addRow(true)" /></td>
         </tr>
-
     </table>
+
+
+
     <p class="note">Fields with <span class="required">*</span> are required.</p>
 
     <?php echo $form->errorSummary($model); ?>
@@ -93,11 +99,8 @@
 
 </div><!-- form -->
 
-<div id="addProduct" style="display: none">
-    <?php $this->renderPartial('_productform', array('model' => $model, 'productModel' => new Product())); ?>
-</div>
 
-<table style="display:none" id="emptyTitleRows">
+<table style="display: none" id="emptyTitleRows">
     <tr>
         <td><?php echo $form->textField($detailModel, 'amount[]'); ?></td>
         <td><?php echo $form->textField($detailModel, 'itemnum[]'); ?></td>

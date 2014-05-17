@@ -102,8 +102,12 @@ class InvoiceController extends Controller {
         if (isset($_POST['productTag'])) {
             $productTag = $_POST['productTag'];
             $productModel = Product::model()->findByAttributes(array('tag' => $productTag));
-
-            $this->renderPartial('_productform', array( 'productModel' => $productModel));
+            if (!$productModel) {
+                $productModel = new Product;
+                $productModel->addError('tag','Product tag not in the database, is it new?');
+                $productModel->tag = $_POST['productTag'];
+            }
+            $this->renderPartial('_productform', array('productModel' => $productModel));
         }
     }
 
