@@ -26,7 +26,7 @@ class InvoiceController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow all users to perform 'index' and 'view' actions
-                'actions' => array('index', 'view'),
+                'actions' => array('index', 'view', 'addproduct'),
                 'users' => array('*'),
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -96,6 +96,15 @@ class InvoiceController extends Controller {
             'model' => $model,
             'detailModel' => $detailModel,
         ));
+    }
+
+    public function actionAddProduct() {
+        if (isset($_POST['productTag'])) {
+            $productTag = $_POST['productTag'];
+            $productModel = Product::model()->findByAttributes(array('tag' => $productTag));
+
+            $this->renderPartial('_productform', array( 'productModel' => $productModel));
+        }
     }
 
     /**

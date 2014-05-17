@@ -7,14 +7,24 @@
 
 
 <script type="text/javascript">
-    function add() {
+    function add(empty) {
         var dataTable = document.getElementById("dataTable");
-        var newTable = document.getElementById("newTitleRows").cloneNode(true).children;
+        var newTable = document.getElementById("emptyTitleRows").cloneNode(true).children;
+        if (!empty) {
+            newTable = document.getElementById("newTitleRows").cloneNode(true).children;
+        }
         dataTable.appendChild(newTable[0]);
     }
+
+
 </script>
 <div class="form">
-
+    <form>
+        <?php echo CHtml::textField('productTag') ?>
+        <?php
+        echo CHtml::ajaxSubmitButton("Add Product", CController::createUrl('addproduct'), array('update' => '#addProduct'));
+        ?>
+    </form>
     <?php
     $form = $this->beginWidget('CActiveForm', array(
         'id' => 'invoice-form',
@@ -26,6 +36,17 @@
     ));
     ?>
 
+
+    <table id="dataTable">
+        <tr class="title">
+            <td><?php echo $form->labelEx($detailModel, 'amount'); ?></td>
+            <td><?php echo $form->labelEx($detailModel, 'itemnum'); ?></td>
+            <td><?php echo $form->labelEx($detailModel, 'description'); ?></td>
+            <td><?php echo $form->labelEx($detailModel, 'unitprice'); ?></td>
+            <td><input type="button" name="more" value="more" onclick="add(true)" /></td>
+        </tr>
+
+    </table>
     <p class="note">Fields with <span class="required">*</span> are required.</p>
 
     <?php echo $form->errorSummary($model); ?>
@@ -62,22 +83,6 @@
         <?php echo $form->textField($model->customer, 'address', array('size' => 60, 'maxlength' => 100)); ?>
         <?php echo $form->error($model->customer, 'address'); ?>
     </div>
-    <table id="dataTable">
-        <tr class="title">
-            <td><?php echo $form->labelEx($detailModel, 'amount'); ?></td>
-            <td><?php echo $form->labelEx($detailModel, 'itemnum'); ?></td>
-            <td><?php echo $form->labelEx($detailModel, 'description'); ?></td>
-            <td><?php echo $form->labelEx($detailModel, 'unitprice'); ?></td>
-
-        </tr>
-        <tr>
-            <td><?php echo $form->textField($detailModel, 'amount[]'); ?></td>
-            <td><?php echo $form->textField($detailModel, 'itemnum[]'); ?></td>
-            <td><?php echo $form->textField($detailModel, 'description[]'); ?></td>
-            <td><?php echo $form->textField($detailModel, 'unitprice[]'); ?></td>
-            <td><input type="button" name="more" value="more" onclick="add()" /></td>
-        </tr>
-    </table>
     <div class="row buttons">
         <?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
     </div>
@@ -86,7 +91,11 @@
 
 </div><!-- form -->
 
-<table style="display:none" id="newTitleRows">
+<div id="addProduct" style="display: none">
+    <?php $this->renderPartial('_productform', array('model' => $model, 'productModel' => new Product())); ?>
+</div>
+
+<table style="display:none" id="emptyTitleRows">
     <tr>
         <td><?php echo $form->textField($detailModel, 'amount[]'); ?></td>
         <td><?php echo $form->textField($detailModel, 'itemnum[]'); ?></td>
