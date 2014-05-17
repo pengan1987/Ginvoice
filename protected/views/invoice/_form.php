@@ -7,7 +7,7 @@
 
 
 <script type="text/javascript">
-    function add(empty) {
+    function addRow(empty) {
         var dataTable = document.getElementById("dataTable");
         var newTable = document.getElementById("emptyTitleRows").cloneNode(true).children;
         if (!empty) {
@@ -16,9 +16,7 @@
         dataTable.appendChild(newTable[0]);
     }
     function deleteRow(currentButton) {
-
-        var currentRow = currentButton.parentNode.parentNode;
-        currentRow.parentNode.removeChild(currentRow);
+        $(currentButton).closest('tr').remove();
     }
 
 </script>
@@ -47,7 +45,7 @@
             <td><?php echo $form->labelEx($detailModel, 'itemnum'); ?></td>
             <td><?php echo $form->labelEx($detailModel, 'description'); ?></td>
             <td><?php echo $form->labelEx($detailModel, 'unitprice'); ?></td>
-            <td><input type="button" name="more" value="more" onclick="add(true)" /></td>
+            <td><input type="button" name="more" value="more" onclick="addRow(true)" /></td>
         </tr>
 
     </table>

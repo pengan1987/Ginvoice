@@ -1,4 +1,4 @@
-<script type="text/javascript">add();</script>
+<script type="text/javascript">addRow();</script>
 
 <table id="newTitleRows">
     <tr>
