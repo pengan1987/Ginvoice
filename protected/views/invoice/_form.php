@@ -69,7 +69,7 @@
 
     <div class="row">
         <?php echo $form->labelEx($model, 'payment_method'); ?>
-        <?php echo $form->textField($model, 'payment_method', array('size' => 16, 'maxlength' => 16)); ?>
+        <?php echo $form->dropDownList($model, 'payment_method', array('Credit' => 'Credit Card', 'Debit' => 'Debit Card', 'Cash' => 'Cash')) ?>
         <?php echo $form->error($model, 'payment_method'); ?>
     </div>
 
