@@ -15,7 +15,11 @@
         }
         dataTable.appendChild(newTable[0]);
     }
+    function deleteRow(currentButton) {
 
+        var currentRow = currentButton.parentNode.parentNode;
+        currentRow.parentNode.removeChild(currentRow);
+    }
 
 </script>
 <div class="form">
@@ -101,5 +105,6 @@
         <td><?php echo $form->textField($detailModel, 'itemnum[]'); ?></td>
         <td><?php echo $form->textField($detailModel, 'description[]'); ?></td>
         <td><?php echo $form->textField($detailModel, 'unitprice[]'); ?></td>
+        <td><input type="button" name="delete" value="delete" onclick="deleteRow(this)" /></td>
     </tr>
 </table>
